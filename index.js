@@ -29,18 +29,18 @@ function adminMenu() {
   }
 }
 
-// // Funcion para contar los carteles de la página
-// contarElementos();
-// function contarElementos() {
-//   let elementos = document.getElementsByTagName("h1");
+// Funcion para contar los carteles de la página
+contarElementos();
+function contarElementos() {
+  let elementos = document.getElementsByTagName("h1");
 
-//   for (let i = 0; i < elementos.length; i++) {
-//     if (elementos[i].id.startsWith("art")) {
-//       countElem++;
-//     }
-//   }
-//   return countElem;
-// }
+  for (let i = 0; i < elementos.length; i++) {
+    if (elementos[i].id.startsWith("art")) {
+      countElem++;
+    }
+  }
+  return countElem;
+}
 
 // Condicional para llamar a una funcion o otra
 reload();
