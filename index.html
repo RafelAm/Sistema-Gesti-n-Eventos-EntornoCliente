@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <header>
+        <div class="navbar">
+            <a href="#main" >Inicio</a>
+            <a href="#about">Tickets</a>
+            <a onclick="adminMenu()">Login</a>
+            <a onclick="addConcierto()" class="adm">Añadir Concierto</a>
+            <a onclick="rmConcierto()" class="adm">Eliminar Concierto</a>
+        </div>
+    </header>
+    <div class="tit">
+        <h1>Conciertos de la temporada 2024</h1>
+    </div>
+    
+    <div class="main" id="main">
+      <div class="cards" id="c1">
+        <div class="card">
+          <h1 id="art1"></h1>
+          <h2 id="sal1"></h2>
+          <p id="tmp1"></p>
+          <p id="fch1"></p>
+          <button><a href="#">Comprar tickets</a></button>
+        </div>
+      </div>
+      <div class="cards" id="c2">
+        <div class="card">
+          <h1 id="art2"></h1>
+          <h2 id="sal2"></h2>
+          <p id="tmp2"></p>
+          <p id="fch2"></p>
+          <button><a href="#">Comprar tickets</a></button>
+        </div>
+      </div>
+      <div class="cards" id="c3">
+        <div class="card">
+          <h1 id="art3"></h1>
+          <h2 id="sal3"></h2>
+          <p id="tmp3"></p>
+          <p id="fch3"></p>
+          <button><a href="#">Comprar tickets</a></button>
+        </div>
+      </div>
+      <div class="cards" id="c4">
+        <div class="card">
+          <h1 id="art4"></h1>
+          <h2 id="sal4"></h2>
+          <p id="tmp4"></p>
+          <p id="fch4"></p>
+          <button><a href="#">Comprar tickets</a></button>
+        </div>
+      </div>
+      <div class="cards" id="c5">
+        <div class="card">
+          <h1 id="art5"></h1>
+          <h2 id="sal5"></h2>
+          <p id="tmp5"></p>
+          <p id="fch5"></p>
+          <button><a href="#">Comprar tickets</a></button>
+        </div>
+      </div>
+      <div class="cards" id="c6">
+        <div class="card">
+          <h1 id="art6"></h1>
+          <h2 id="sal6"></h2>
+          <p id="tmp6"></p>
+          <p id="fch6"></p>
+          <button><a href="#">Comprar tickets</a></button>
+        </div>
+      </div>
+      <div class="cards" id="c7">
+        <div class="card">
+          <h1 id="art7"></h1>
+          <h2 id="sal7"></h2>
+          <p id="tmp7"></p>
+          <p id="fch7"></p>
+          <button><a href="#">Comprar tickets</a></button>
+        </div>
+      </div>
+      <div class="cards" id="c8">
+        <div class="card">
+          <h1 id="art8"></h1>
+          <h2 id="sal8"></h2>
+          <p id="tmp8"></p>
+          <p id="fch8"></p>
+          <button><a href="#">Comprar tickets</a></button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="tickets" id="tickets">
+      
+        <form action="">
+            <h2 id="nticks">¡No puedes comprar más de 5 tickets!</h2>
+            <h2 id="full">¡La sala esta full!</h2>
+            <label for="conciertos"><h1>Concierto</h1></label>
+            <select name="conciertos" id="optionArtista" class="con">
+            </select>
+            <br><br>
+            <input type="number" name="numTickets" id="tic" class="con">
+            <br><br>
+            <button onclick="contarTickets()">Comprar</button>
+        </form>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>
