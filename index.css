@@ -33,18 +33,21 @@ body{
 
 .tit{
     display: flex;
-    padding-top: 4%;
     justify-content: center;
-    
+    background-color: #575757;
+    border: 1px solid black;
+    width: 62%;
+    margin-top: 5%;
+    padding: 1%;
+    align-self: center;
 }
 
 .tit h1{
     text-align: center;
     padding: 1%;
-    width: 61.8%;
-    color: white;
-    background-color: #575757;
-    border: 1px solid black;
+    margin: 0 auto;
+    background-color: rgb(71, 252, 119);
+    border-radius: 0.5vw;
 }
 
 .card{
@@ -124,13 +127,24 @@ body{
     display: flex;
     flex-direction: column;
     background-color: gray;
-    height: 30vh;
+    margin-top: 3%;
     width: 50%;
-    padding: 5%;
+    padding: 1%;
     border: 1px solid black;
     border-radius: 1vw;
     box-shadow: 10px 10px 5px rgb(42, 42, 42);
 
+}
+
+.tickets form{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 100%;
+    background-color: rgb(71, 252, 119);
+    border: 1px solid black;
+    border-radius: 0.5vw;
+    padding: 1%;
 }
 
 .tickets .con{
@@ -162,3 +176,11 @@ body{
     color: white;
 }
 
+.titulos{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(71, 252, 119);
+    margin-bottom: 3%;
+    border-radius: 0.5vw;
+}
