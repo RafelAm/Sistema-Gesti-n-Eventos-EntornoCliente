@@ -96,16 +96,16 @@ function loadArtistas() {
 
   document.getElementById(salas).innerHTML = conciertos[col][fil++];
 
+  //ID
   if(conciertos[col].ident == undefined || conciertos[col].ident != indice){
     conciertos[col].ident = indice;
     
   }
+
+  // --> Date
   fechasStr(conciertos[col][fil++], fechas, temporada,col); // --> Date
   
-
   document.getElementById(post).style.backgroundImage = conciertos[col][fil++];
-
-
 
   col++;
   if (col < conciertos.length) {
