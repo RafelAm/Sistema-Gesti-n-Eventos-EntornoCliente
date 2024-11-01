@@ -1,5 +1,5 @@
+let id = 1
 
-var id = 0;
 var conciertoPorDefecto = [[" ", " ", " ", "url(Multimedia/prox.jpg)",0]]
 // Array bidimensional que guarda información de cada cartel
 var conciertos = [
@@ -31,18 +31,18 @@ function adminMenu() {
   }
 }
 
-// Funcion para contar los carteles de la página
-contarElementos();
-function contarElementos() {
-  let elementos = document.getElementsByTagName("h1");
+// // Funcion para contar los carteles de la página
+// contarElementos();
+// function contarElementos() {
+//   let elementos = document.getElementsByTagName("h1");
 
-  for (let i = 0; i < elementos.length; i++) {
-    if (elementos[i].id.startsWith("art")) {
-      countElem++;
-    }
-  }
-  return countElem;
-}
+//   for (let i = 0; i < elementos.length; i++) {
+//     if (elementos[i].id.startsWith("art")) {
+//       countElem++;
+//     }
+//   }
+//   return countElem;
+// }
 
 // Condicional para llamar a una funcion o otra
 reload();
@@ -82,7 +82,7 @@ function comingSoon() {
 loadOptions();
 function loadOptions(){
   document.getElementById("optionArtista").innerHTML = "";
-  for(let i = 0; i < id-1; i++){
+  for(let i = 0; i < conciertos.length; i++){
       document.getElementById("optionArtista").innerHTML += "<option id='op'>" +conciertos[i][0]+" " +conciertos[i][2]+"</option>"
   }
 }
@@ -99,8 +99,8 @@ function loadArtistas() {
   document.getElementById(salas).innerHTML = conciertos[col][fil++];
 
   if(conciertos[col].ident == undefined){
-    conciertos[col].ident = id;
-    id++;
+    conciertos[col].ident = indice;
+    
   }
   fechasStr(conciertos[col][fil++], fechas, temporada,col); // --> Date
   
@@ -137,12 +137,12 @@ function addConcierto() {
   loadArtistas();
   loadOptions();
 }
-// Borrar Artista
+
 // Borrar Artista
 function rmConcierto() {
   let identificador = parseInt(prompt("ID:"));
   for (let j = 0; j < conciertos.length; j++) {
-    if (conciertos[j].includes(identificador)) {
+    if (conciertos[j].ident == identificador) {
       conciertos.splice(j, 1);
       if (elementosVacios()) {
         comingSoon();
@@ -155,7 +155,6 @@ function rmConcierto() {
       return; // Salir de la función después de eliminar la fila
     }
   }
-
 }
 
 
