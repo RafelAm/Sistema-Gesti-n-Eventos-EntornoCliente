@@ -57,6 +57,11 @@ body{
     text-align: center;
     height: 100%;
     color: rgb(255, 255, 255);
+    box-shadow: 10px 10px 5px rgb(42, 42, 42);
+}
+
+.cards{
+    box-shadow: 5px 5px 5px rgb(117, 117, 117);
 }
 
 .cards:hover .card{
@@ -65,7 +70,7 @@ body{
 
 .cards [id^="art"]{
     height: 25%;
-
+    
 }
 .cards [id^="sal"]{
     height: 25%;
@@ -122,6 +127,10 @@ body{
     height: 30vh;
     width: 50%;
     padding: 5%;
+    border: 1px solid black;
+    border-radius: 1vw;
+    box-shadow: 10px 10px 5px rgb(42, 42, 42);
+
 }
 
 .tickets .con{
