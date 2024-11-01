@@ -1,5 +1,5 @@
 
-var id = 1;
+var id = 0;
 var conciertoPorDefecto = [[" ", " ", " ", "url(Multimedia/prox.jpg)",0]]
 // Array bidimensional que guarda información de cada cartel
 var conciertos = [
@@ -98,9 +98,12 @@ function loadArtistas() {
 
   document.getElementById(salas).innerHTML = conciertos[col][fil++];
 
+  if(conciertos[col].ident == undefined){
+    conciertos[col].ident = id;
+    id++;
+  }
   fechasStr(conciertos[col][fil++], fechas, temporada,col); // --> Date
   
-  id++;
 
   document.getElementById(post).style.backgroundImage = conciertos[col][fil++];
 
@@ -172,7 +175,6 @@ function elementosVacios() {
 function fechasStr(fechaArray, indiceFecha, indicetemp,columna) {
 
   let fecha = construirFecha(fechaArray); //retorna la fecha  para trabajar con date
-  conciertos[columna].push(id);
   document.getElementById(indicetemp).innerText = temporada(fecha);
   document.getElementById(indiceFecha).innerText = frase(fecha);
   
