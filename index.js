@@ -1,5 +1,4 @@
 
-var id = 1;
 var conciertoPorDefecto = [[" ", " ", " ", "url(Multimedia/prox.jpg)",0]]
 // Array bidimensional que guarda información de cada cartel
 var conciertos = [
@@ -82,8 +81,8 @@ function comingSoon() {
 loadOptions();
 function loadOptions(){
   document.getElementById("optionArtista").innerHTML = "";
-  for(let i = 0; i < id-1; i++){
-      document.getElementById("optionArtista").innerHTML += "<option id='op'>" +conciertos[i][0]+" " +conciertos[i][2]+"</option>"
+  for(let i = 0; i < conciertos.length; i++){
+      document.getElementById("optionArtista").innerHTML += "<option id='op'>" +conciertos[i][0]+" " +conciertos[i][2]+ " - Tickets Restantes: "+ conciertos[i][4] +"/"+conciertos[i][5]+"</option>"
   }
 }
 
@@ -98,9 +97,12 @@ function loadArtistas() {
 
   document.getElementById(salas).innerHTML = conciertos[col][fil++];
 
+  if(conciertos[col].ident == undefined || conciertos[col].ident != indice){
+    conciertos[col].ident = indice;
+    
+  }
+
   fechasStr(conciertos[col][fil++], fechas, temporada,col); // --> Date
-  
-  id++;
 
   document.getElementById(post).style.backgroundImage = conciertos[col][fil++];
 
@@ -116,17 +118,31 @@ function loadArtistas() {
   indice = 1;
 }
 
+
+
+//Test
+function addMenu(){
+  let form =document.getElementById("formContainer");
+  form.style.display = "block";
+}
+
+function rmMenu(){
+  let form =document.getElementById("formContainer");
+  event.preventDefault(); // Previene la recarga de la página
+  form.style.display = "none";
+}
+
 // Añadir Artista
 function addConcierto() {
-  let name = prompt("Introduce el nombre del artista");
-  let sala = prompt("Introduce la sala");
-  let fecha = prompt("Introduce la fecha");
-  let tickets = parseInt(prompt("Introduce el numero de tickets"));
-  let foto =
-    "url(Multimedia/" + prompt("Introduce el nombre de la imagen:") + ".jpg)";
-  // let tickets = prompt("")
+
+  let name = document.getElementById("name").value;
+  let sala = document.getElementById("sala").value;
+  let fecha = new Date(document.getElementById("fecha").value).toLocaleDateString('es-ES');
+  let tickets = parseInt(document.getElementById("tickets").value);
+  let foto = "url(Multimedia/" + document.getElementById("foto").value + ".jpg)";
+
   if (elementosVacios()) {
-    conciertos.push([name, sala, fecha,  foto, 0, tickets]); // Añadir al final si no se eliminó ningún elemento
+      conciertos.push([name, sala, fecha, foto, 0, tickets]); // Añadir al final si no se eliminó ningún elemento
   }
   fil = 0;
   col = 0;
@@ -134,12 +150,12 @@ function addConcierto() {
   loadArtistas();
   loadOptions();
 }
-// Borrar Artista
+
 // Borrar Artista
 function rmConcierto() {
   let identificador = parseInt(prompt("ID:"));
   for (let j = 0; j < conciertos.length; j++) {
-    if (conciertos[j].includes(identificador)) {
+    if (conciertos[j].ident == identificador) {
       conciertos.splice(j, 1);
       if (elementosVacios()) {
         comingSoon();
@@ -152,9 +168,7 @@ function rmConcierto() {
       return; // Salir de la función después de eliminar la fila
     }
   }
-
 }
-
 
 function elementosVacios() {
   let elementos = document.getElementsByTagName("h1");
@@ -172,7 +186,6 @@ function elementosVacios() {
 function fechasStr(fechaArray, indiceFecha, indicetemp,columna) {
 
   let fecha = construirFecha(fechaArray); //retorna la fecha  para trabajar con date
-  conciertos[columna].push(id);
   document.getElementById(indicetemp).innerText = temporada(fecha);
   document.getElementById(indiceFecha).innerText = frase(fecha);
   
@@ -238,25 +251,58 @@ function contarTickets(){
  
   let soldout = document.getElementById("full");
   let nticks = document.getElementById("nticks");
-  if(numtickets <= 5){
+
+  if(numtickets <= 5 && numtickets > 0){
   // For para recorrer todos los elementos del array
-  for (let i = 0; i < conciertos.length; i++) {
+  for (let i = 0; i < conciertos.length; i++) {4
+
     // Condicional para comprobar que el nombre sea igual que el del array y la fecha
-    if (artistaSplit == conciertos[i][0] && fechaSplit == conciertos[i][2] && ((conciertos[i][4]+numtickets) <= 150)) {
+    if (artistaSplit == conciertos[i][0] && fechaSplit == conciertos[i][2]) {
+      soldout.style.display= "none";
+
+      if(((conciertos[i][4]+numtickets) <= 150)){
       // Suma de los tickets a la posicion donde se encuentran
       conciertos[i][4] += parseInt(numtickets);
-    }else if(conciertos[i][4] >= 150){
-      soldout.style.display= "block";
-     }else{
-      let suma = conciertos[i][4] + numtickets;
-      console.log("Solo puedes comprar: " + parseInt(suma - 150));
-     }
+      //Recarga la lista de opciones
+      loadOptions();
+
+      }else if(conciertos[i][4] == 150){
+        soldout.innerHTML = "¡El concierto de "+ conciertos[i][0]+ " el " +conciertos[i][2] +" esta todo vendido!";
+        soldout.style.display= "block";
+
+       }else if((conciertos[i][4] + numtickets) > 150){
+        soldout.innerHTML = "Solo queda disponible: " + parseInt((conciertos[i][4] + numtickets) - conciertos[i][5])+" entrada";
+        soldout.style.display= "block";
+      }
+
+    }
   }
 }else if (numtickets > 5){
   nticks.style.display = "block";
+}else if(numtickets <= 0 || isNaN(numtickets)){
+  soldout.innerHTML = "Introduce un número correcto";
+  soldout.style.display= "block";
 }
-console.log(conciertos);
+
 }
 
 
-console.log(conciertos);
+
+
+function calcularTotal(){
+  let id = parseInt(prompt("Introduce el ID del cartel:"));
+  let total = 0;
+  let ticketsVendidos = 0
+  
+  for(let i = 0; i < conciertos.length; i++){
+    console.log(conciertos[i][7])
+    if(conciertos[i][7] == id){
+      ticketsVendidos = conciertos[i][4];
+      break;
+    }
+  }
+  total = ticketsVendidos * 30;
+  console.log(total);
+}
+
+//hola soy yesua

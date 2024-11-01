@@ -28,6 +28,38 @@ body{
     background-color: rgb(71, 252, 119);
     color: black;
 }
+
+#formContainer {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.675);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+#conciertoForm{
+    background-color: gray;
+    background-image: none;
+    justify-self: center;
+    text-align: center;
+    margin-top: 40vh;
+    width: 40%;
+    padding: 1%;
+    border-radius: 1vw;
+    border: 1px solid black;
+    color: white;
+    font-weight: bold;
+}
+#conciertoForm input{
+    width: 50%;
+    text-align: center;
+}
+#formContainer.hidden {
+    display: none;
+}
+
 .main{
     display: grid;
     grid-template-columns: repeat(4, 300px);
@@ -103,27 +135,21 @@ body{
     color: white;
 }
 
-.cards button{
+.cards .comprar{
     background-color: rgb(255, 255, 255);
     width: 80%;
     height: 15%;
 
 }
 
-.cards button a{
+.cards .comprar a{
     text-decoration: none;
     color: black;
 }
 
-
-
-
-
-
 .adm{
     display: none;
 }
-
 
 .tickets{
     align-self: center;
@@ -185,5 +211,31 @@ body{
     align-items: center;
     background-color: rgb(71, 252, 119);
     margin-bottom: 3%;
+    border: 1px solid black;
     border-radius: 0.5vw;
+}
+
+.close{
+    display: flex;
+    width: 100%;
+    justify-content: end;
+    background-color: transparent;
+    border: 0;
+}
+.close-card{
+    display: flex;
+    width: 100%;
+    font-size: 2vw;
+    justify-content: end;
+    background-color: transparent;
+    border: 0;
+    color: white;
+}
+
+.botones{
+   padding: 1%;
+   background-color: #575757;
+   border: 2px solid violet;
+   border: 0;
+   color: white;
 }
