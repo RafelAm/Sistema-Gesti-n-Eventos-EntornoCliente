@@ -96,7 +96,7 @@ function loadArtistas() {
 
   document.getElementById(salas).innerHTML = conciertos[col][fil++];
 
-  if(conciertos[col].ident == undefined){
+  if(conciertos[col].ident == undefined || conciertos[col].ident != indice){
     conciertos[col].ident = indice;
     
   }
