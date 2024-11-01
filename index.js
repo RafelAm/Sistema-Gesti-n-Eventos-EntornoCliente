@@ -304,3 +304,5 @@ function calcularTotal(){
   total = ticketsVendidos * 30;
   console.log(total);
 }
+
+//hola soy yesua
