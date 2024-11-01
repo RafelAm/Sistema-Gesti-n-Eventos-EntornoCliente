@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
   </head>
   <body>
     <header>
@@ -12,8 +13,10 @@
             <a href="#main" >Inicio</a>
             <a href="#about">Tickets</a>
             <a onclick="adminMenu()">Login</a>
-            <a onclick="addConcierto()" class="adm">Añadir Concierto</a>
+            <a onclick="addMenu()" class="adm">Añadir Concierto</a>
             <a onclick="rmConcierto()" class="adm">Eliminar Concierto</a>
+            
+            
         </div>
     </header>
     <div class="tit">
@@ -101,7 +104,7 @@
       <div class="titulos"><h1>Tickets</h1></div>
         <form action="">
             <h2 id="nticks">¡No puedes comprar más de 5 tickets!</h2>
-            <h2 id="full">¡La sala esta full!</h2>
+            <h2 id="full"></h2>
             <label for="conciertos"><h1>Concierto</h1></label>
             <select name="conciertos" id="optionArtista" class="con">
             </select>
@@ -109,9 +112,35 @@
             <label for="numTickets"><h1>Cantidad de tickets</h1></label>
             <input type="number" name="numTickets" id="tic" class="con">
             <br><br>
-            <button onclick="contarTickets()">Comprar</button>
+            <button class="botones" onclick="contarTickets()">Comprar</button>
         </form>
     </div>
+
+
+
+    <div id="formContainer" class="hidden">
+      
+      <form id="conciertoForm">
+        <button onclick="rmMenu()" class="close"><i class='fas fa-times' style='font-size:24px;align-self: flex-end;'></i></button>
+          <label for="name">Nombre del Artista:</label><br>
+          <input type="text" id="name" name="name" required><br><br>
+
+          <label for="sala">Sala:</label><br>
+          <input type="text" id="sala" name="sala" required><br><br>
+
+          <label for="fecha">Fecha:</label><br>
+          <input type="date" id="fecha" name="fecha" required><br><br>
+
+          <label for="tickets">Número de Tickets:</label><br>
+          <input type="number" id="tickets" name="tickets" required><br><br>
+
+          <label for="foto">Nombre de la Imagen:</label><br>
+          <input type="text" id="foto" name="foto" required><br><br>
+
+          <button class="botones" type="button" onclick="addConcierto()">Agregar Concierto</button>
+      </form>
+  </div>
     <script src="index.js"></script>
+    
   </body>
 </html>
