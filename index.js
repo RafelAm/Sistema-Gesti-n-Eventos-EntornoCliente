@@ -138,7 +138,6 @@ function addConcierto() {
   let name = document.getElementById("name").value;
   let sala = document.getElementById("sala").value;
   let fecha = new Date(document.getElementById("fecha").value).toLocaleDateString('es-ES');
-  console.log(fecha);
   let tickets = parseInt(document.getElementById("tickets").value);
   let foto = "url(Multimedia/" + document.getElementById("foto").value + ".jpg)";
 
@@ -151,40 +150,6 @@ function addConcierto() {
   loadArtistas();
   loadOptions();
 }
-
-// Borrar Artista
-/*function rmConcierto() {
-  let nombres = document.getElementsByTagName("h1");
-  let identificador = document.getElementsByTagName("button");
-  
-  let test = identificador.split(" ");
-  console.log(test);
-  let test2 = [];
-  for(let i = 0; i < identificador.length; i++){
-    
-    if(test[i].id == /\d/){
-      test2.push(identificador[i]);
-    }
-  }
-  
-  for (let j = 0; j < conciertos.length; j++) {
-    for(let i = 0; i < nombres.length; i++){
-    // Comparar con los valores del array
-    if (nombres[i].textContent == conciertos[j][0] && identificador == conciertos[j][2]) {
-      conciertos.splice(j, 1);
-      if (elementosVacios()) {
-        comingSoon();
-      }
-      fil = 0;
-      col = 0;
-      indice = 1;
-      loadArtistas();
-      loadOptions();
-      return; // Salir de la función después de eliminar la fila
-    }
-  }
-}
-}*/
 
 // Borrar Artista
 function rmConcierto() {
@@ -319,4 +284,23 @@ function contarTickets(){
   soldout.style.display= "block";
 }
 
+}
+
+
+
+
+function calcularTotal(){
+  let id = parseInt(prompt("Introduce el ID del cartel:"));
+  let total = 0;
+  let ticketsVendidos = 0
+  
+  for(let i = 0; i < conciertos.length; i++){
+    console.log(conciertos[i][7])
+    if(conciertos[i][7] == id){
+      ticketsVendidos = conciertos[i][4];
+      break;
+    }
+  }
+  total = ticketsVendidos * 30;
+  console.log(total);
 }
