@@ -152,9 +152,15 @@ function addConcierto() {
 
 // Borrar Artista
 function rmConcierto() {
-  let identificador = parseInt(prompt("ID:"));
+  let nombres = document.getElementsByTagName("h1");
+  let fechas = document.getElementsByTagName("p");
   for (let j = 0; j < conciertos.length; j++) {
-    if (conciertos[j].includes(identificador)) {
+    for(let i = 0; i < nombres.length; i++){
+    // Obtener el texto de los elementos
+    let textoIdentificador = conciertos[j][6];
+    // Comparar con los valores del array
+    if (nombres[i].textContent == conciertos[j][0]) {
+      console.log("hola")
       conciertos.splice(j, 1);
       if (elementosVacios()) {
         comingSoon();
@@ -167,10 +173,8 @@ function rmConcierto() {
       return; // Salir de la función después de eliminar la fila
     }
   }
-
 }
-
-
+}
 function elementosVacios() {
   let elementos = document.getElementsByTagName("h1");
   for (let i = 0; i < elementos.length; i++) {

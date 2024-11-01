@@ -135,14 +135,14 @@ body{
     color: white;
 }
 
-.cards button{
+.cards .comprar{
     background-color: rgb(255, 255, 255);
     width: 80%;
     height: 15%;
 
 }
 
-.cards button a{
+.cards .comprar a{
     text-decoration: none;
     color: black;
 }
@@ -222,7 +222,15 @@ body{
     background-color: transparent;
     border: 0;
 }
-
+.close-card{
+    display: flex;
+    width: 100%;
+    font-size: 2vw;
+    justify-content: end;
+    background-color: transparent;
+    border: 0;
+    color: white;
+}
 
 .botones{
    padding: 1%;
