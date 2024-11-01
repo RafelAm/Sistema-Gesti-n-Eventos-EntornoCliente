@@ -1,5 +1,3 @@
-let id = 1
-
 var conciertoPorDefecto = [[" ", " ", " ", "url(Multimedia/prox.jpg)",0]]
 // Array bidimensional que guarda información de cada cartel
 var conciertos = [
