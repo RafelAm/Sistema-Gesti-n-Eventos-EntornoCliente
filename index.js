@@ -1,5 +1,4 @@
 
-var id = 1;
 var conciertoPorDefecto = [[" ", " ", " ", "url(Multimedia/prox.jpg)",0]]
 // Array bidimensional que guarda información de cada cartel
 var conciertos = [
@@ -82,7 +81,7 @@ function comingSoon() {
 loadOptions();
 function loadOptions(){
   document.getElementById("optionArtista").innerHTML = "";
-  for(let i = 0; i < id-1; i++){
+  for(let i = 0; i < conciertos.length; i++){
       document.getElementById("optionArtista").innerHTML += "<option id='op'>" +conciertos[i][0]+" " +conciertos[i][2]+ " - Tickets Restantes: "+ conciertos[i][4] +"/"+conciertos[i][5]+"</option>"
   }
 }
@@ -98,9 +97,12 @@ function loadArtistas() {
 
   document.getElementById(salas).innerHTML = conciertos[col][fil++];
 
+  if(conciertos[col].ident == undefined || conciertos[col].ident != indice){
+    conciertos[col].ident = indice;
+    
+  }
+
   fechasStr(conciertos[col][fil++], fechas, temporada,col); // --> Date
-  
-  id++;
 
   document.getElementById(post).style.backgroundImage = conciertos[col][fil++];
 
@@ -151,16 +153,24 @@ function addConcierto() {
 }
 
 // Borrar Artista
-function rmConcierto() {
+/*function rmConcierto() {
   let nombres = document.getElementsByTagName("h1");
-  let fechas = document.getElementsByTagName("p");
+  let identificador = document.getElementsByTagName("button");
+  
+  let test = identificador.split(" ");
+  console.log(test);
+  let test2 = [];
+  for(let i = 0; i < identificador.length; i++){
+    
+    if(test[i].id == /\d/){
+      test2.push(identificador[i]);
+    }
+  }
+  
   for (let j = 0; j < conciertos.length; j++) {
     for(let i = 0; i < nombres.length; i++){
-    // Obtener el texto de los elementos
-    let textoIdentificador = conciertos[j][6];
     // Comparar con los valores del array
-    if (nombres[i].textContent == conciertos[j][0]) {
-      console.log("hola")
+    if (nombres[i].textContent == conciertos[j][0] && identificador == conciertos[j][2]) {
       conciertos.splice(j, 1);
       if (elementosVacios()) {
         comingSoon();
@@ -174,7 +184,27 @@ function rmConcierto() {
     }
   }
 }
+}*/
+
+// Borrar Artista
+function rmConcierto() {
+  let identificador = parseInt(prompt("ID:"));
+  for (let j = 0; j < conciertos.length; j++) {
+    if (conciertos[j].ident == identificador) {
+      conciertos.splice(j, 1);
+      if (elementosVacios()) {
+        comingSoon();
+      }
+      fil = 0;
+      col = 0;
+      indice = 1;
+      loadArtistas();
+      loadOptions();
+      return; // Salir de la función después de eliminar la fila
+    }
+  }
 }
+
 function elementosVacios() {
   let elementos = document.getElementsByTagName("h1");
   for (let i = 0; i < elementos.length; i++) {
@@ -191,7 +221,6 @@ function elementosVacios() {
 function fechasStr(fechaArray, indiceFecha, indicetemp,columna) {
 
   let fecha = construirFecha(fechaArray); //retorna la fecha  para trabajar con date
-  conciertos[columna].push(id);
   document.getElementById(indicetemp).innerText = temporada(fecha);
   document.getElementById(indiceFecha).innerText = frase(fecha);
   
