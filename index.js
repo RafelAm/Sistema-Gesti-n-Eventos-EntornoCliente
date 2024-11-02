@@ -1,10 +1,11 @@
-var conciertoPorDefecto = [[" ", " ", " ", "url(Multimedia/prox.jpg)",0]]
+var dineroPorCompra = [];
+var conciertoPorDefecto = [[" ", " ", " ", "url(Multimedia/prox.jpg)", 0]]
 // Array bidimensional que guarda información de cada cartel
 var conciertos = [
-  ["JCReyes", "Es Gremi", "28/12/2025", "url(Multimedia/jcreyes.jpg)",149,150],
-  ["Melendi", "Es Gremi", "29/10/2025", "url(Multimedia/melendi.jpg)",0,150],
-  ["El Drogas", "Es Gremi", "30/07/2025", "url(Multimedia/eldrogas.jpg)",0,150],
-  ["Alvama Ice", "Es Gremi", "31/09/2025", "url(Multimedia/alvamaice.jpg)",0,150],
+  ["JCReyes", "Es Gremi", "28/12/2025", "url(Multimedia/jcreyes.jpg)", 149, 150],
+  ["Melendi", "Es Gremi", "29/10/2025", "url(Multimedia/melendi.jpg)", 0, 150],
+  ["El Drogas", "Es Gremi", "30/07/2025", "url(Multimedia/eldrogas.jpg)", 0, 150],
+  ["Alvama Ice", "Es Gremi", "31/09/2025", "url(Multimedia/alvamaice.jpg)", 0, 150],
 ];
 
 // Numero de fila para acceder a ellas
@@ -78,10 +79,10 @@ function comingSoon() {
 }
 
 loadOptions();
-function loadOptions(){
+function loadOptions() {
   document.getElementById("optionArtista").innerHTML = "";
-  for(let i = 0; i < conciertos.length; i++){
-      document.getElementById("optionArtista").innerHTML += "<option id='op'>" +conciertos[i][0]+" " +conciertos[i][2]+"</option>"
+  for (let i = 0; i < conciertos.length; i++) {
+    document.getElementById("optionArtista").innerHTML += "<option id='op'>" + conciertos[i][0] + " " + conciertos[i][2] + " - Tickets Restantes: " + conciertos[i][4] + "/" + conciertos[i][5] + "</option>"
   }
 }
 
@@ -96,16 +97,16 @@ function loadArtistas() {
 
   document.getElementById(salas).innerHTML = conciertos[col][fil++];
 
-  //ID
-  if(conciertos[col].ident == undefined || conciertos[col].ident != indice){
+  if (conciertos[col].ident == undefined || conciertos[col].ident != indice) {
     conciertos[col].ident = indice;
-    
+
   }
 
-  // --> Date
-  fechasStr(conciertos[col][fil++], fechas, temporada,col); // --> Date
-  
+  fechasStr(conciertos[col][fil++], fechas, temporada, col); // --> Date
+
   document.getElementById(post).style.backgroundImage = conciertos[col][fil++];
+
+
 
   col++;
   if (col < conciertos.length) {
@@ -117,17 +118,31 @@ function loadArtistas() {
   indice = 1;
 }
 
+
+
+//Test
+function addMenu() {
+  let form = document.getElementById("formContainer");
+  form.style.display = "block";
+}
+
+function rmMenu() {
+  let form = document.getElementById("formContainer");
+  event.preventDefault(); // Previene la recarga de la página
+  form.style.display = "none";
+}
+
 // Añadir Artista
 function addConcierto() {
-  let name = prompt("Introduce el nombre del artista");
-  let sala = prompt("Introduce la sala");
-  let fecha = prompt("Introduce la fecha");
-  let tickets = parseInt(prompt("Introduce el numero de tickets"));
-  let foto =
-    "url(Multimedia/" + prompt("Introduce el nombre de la imagen:") + ".jpg)";
-  // let tickets = prompt("")
+
+  let name = document.getElementById("name").value;
+  let sala = document.getElementById("sala").value;
+  let fecha = new Date(document.getElementById("fecha").value).toLocaleDateString('es-ES');
+  let tickets = parseInt(document.getElementById("tickets").value);
+  let foto = "url(Multimedia/" + document.getElementById("foto").value + ".jpg)";
+
   if (elementosVacios()) {
-    conciertos.push([name, sala, fecha,  foto, 0, tickets]); // Añadir al final si no se eliminó ningún elemento
+    conciertos.push([name, sala, fecha, foto, 0, tickets]); // Añadir al final si no se eliminó ningún elemento
   }
   fil = 0;
   col = 0;
@@ -155,7 +170,6 @@ function rmConcierto() {
   }
 }
 
-
 function elementosVacios() {
   let elementos = document.getElementsByTagName("h1");
   for (let i = 0; i < elementos.length; i++) {
@@ -169,12 +183,12 @@ function elementosVacios() {
 
 
 //DATE
-function fechasStr(fechaArray, indiceFecha, indicetemp,columna) {
+function fechasStr(fechaArray, indiceFecha, indicetemp, columna) {
 
   let fecha = construirFecha(fechaArray); //retorna la fecha  para trabajar con date
   document.getElementById(indicetemp).innerText = temporada(fecha);
   document.getElementById(indiceFecha).innerText = frase(fecha);
-  
+
 }
 
 
@@ -190,7 +204,7 @@ function construirFecha(date) {
   let concierto = new Date(año, mes, dia);
 
   return concierto;
-  
+
 }
 
 //toString
@@ -222,10 +236,10 @@ function temporada(concierto) {
 }
 
 
-function contarTickets(){
+function contarTickets() {
   event.preventDefault(); // Previene la recarga de la página
   // Captar numero de tickets
-  let numtickets = parseInt(document.getElementById("tic").value);
+  let numtickets = Number.parseInt(document.getElementById("tic").value);
   // Captar la información del select HTML
   let nombreArtista = document.getElementById("optionArtista").value;
   // Separar el nombre del artista y la fecha para guardarla en un array
@@ -234,28 +248,84 @@ function contarTickets(){
   let artistaSplit = splitter[0].trim();
   // Guardar fecha en una variable
   let fechaSplit = splitter[1];
- 
+
   let soldout = document.getElementById("full");
   let nticks = document.getElementById("nticks");
-  if(numtickets <= 5){
-  // For para recorrer todos los elementos del array
-  for (let i = 0; i < conciertos.length; i++) {
-    // Condicional para comprobar que el nombre sea igual que el del array y la fecha
-    if (artistaSplit == conciertos[i][0] && fechaSplit == conciertos[i][2] && ((conciertos[i][4]+numtickets) <= 150)) {
-      // Suma de los tickets a la posicion donde se encuentran
-      conciertos[i][4] += parseInt(numtickets);
-    }else if(conciertos[i][4] >= 150){
-      soldout.style.display= "block";
-     }else{
-      let suma = conciertos[i][4] + numtickets;
-      console.log("Solo puedes comprar: " + parseInt(suma - 150));
-     }
+
+  if (numtickets <= 5 && numtickets > 0) {
+    // For para recorrer todos los elementos del array
+    for (let i = 0; i < conciertos.length; i++) {
+      4
+
+      // Condicional para comprobar que el nombre sea igual que el del array y la fecha
+      if (artistaSplit == conciertos[i][0] && fechaSplit == conciertos[i][2]) {
+        soldout.style.display = "none";
+
+        if (((conciertos[i][4] + numtickets) <= 150)) {
+          // Suma de los tickets a la posicion donde se encuentran
+          conciertos[i][4] += Number.parseInt(numtickets);
+          //Añadimos lo ganda por esa venta, los indices seran ident y detalle.
+          dineroPorCompra.push({
+            ident: conciertos[i].ident,
+            detalle: numtickets + " => " + numtickets * 30
+          });
+
+          //Recarga la lista de opciones
+          loadOptions();
+
+        } else if (conciertos[i][4] == 150) {
+          soldout.innerHTML = "¡El concierto de " + conciertos[i][0] + " el " + conciertos[i][2] + " esta todo vendido!";
+          soldout.style.display = "block";
+
+        } else if ((conciertos[i][4] + numtickets) > 150) {
+          soldout.innerHTML = "Solo queda disponible: " + Number.parseInt((conciertos[i][4] + numtickets) - conciertos[i][5]) + " entrada";
+          soldout.style.display = "block";
+        }
+
+      }
+    }
+  } else if (numtickets > 5) {
+    nticks.style.display = "block";
+  } else if (numtickets <= 0 || isNaN(numtickets)) {
+    soldout.innerHTML = "Introduce un número correcto";
+    soldout.style.display = "block";
   }
-}else if (numtickets > 5){
-  nticks.style.display = "block";
-}
-console.log(conciertos);
+
 }
 
+//calcula el total de todos los ingresos de un concierto.
 
-console.log(conciertos);
+function calcularTotal() {
+  let id = Number.parseInt(prompt("Introduce el ID del cartel:"));
+  let total = 0;
+  let ticketsVendidos = 0
+
+  for (let i = 0; i < conciertos.length; i++) {
+    if (conciertos[i].ident == id) {
+      ticketsVendidos = conciertos[i][4];
+      break;
+    }
+  }
+  //multiplicacion con el metodo imul de math
+  total = Math.imul(ticketsVendidos, 30);
+  alert("Las ganacias son de un total: " + total + "€");
+}
+
+// fucion para sacar por pantalla todo el historial de ventas
+
+function mostrarHistorialVentas() {
+  alert("Se mostrara el historial por consola.");
+  console.log(dineroPorCompra);
+}
+
+// borra en el historial todas las ventas de una ID en concreto
+
+function borrarHistorialVentas() {
+  let id = Number.parseInt(prompt("Introduce el ID del cartel:"));
+  for (let i = dineroPorCompra.length - 1; i >= 0; i--) {
+    if (id == dineroPorCompra[i].ident) {
+      dineroPorCompra.splice(i, 1);
+    }
+  }
+  console.log(dineroPorCompra);
+}
