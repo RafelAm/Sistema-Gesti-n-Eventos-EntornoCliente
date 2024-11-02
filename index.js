@@ -1,3 +1,4 @@
+var hoy = new Date();
 var dineroPorCompra = [];
 var conciertoPorDefecto = [[" ", " ", " ", "url(Multimedia/prox.jpg)", 0]]
 // Array bidimensional que guarda información de cada cartel
@@ -12,7 +13,6 @@ var conciertos = [
 var fil = 0;
 // Numero de columnas para acceder a ellas
 var col = 0;
-// Numero de elemento para acceder a ellos
 var indice = 1;
 // Contador de elementos card
 var countElem = 0;
@@ -235,6 +235,28 @@ function temporada(concierto) {
   }
 }
 
+//funcion:avisa cuando compras un ticket cuantos dias le quedan al concierto comprado.
+
+function compararTiempo(today, limite) {
+  let diasrestantes = 0;
+  let fechaAux = new Date(today);
+
+  let dia = parseInt((limite.split("/"))[0]);
+  let mes = parseInt((limite.split("/"))[1]);
+  let año = parseInt((limite.split("/"))[2]);
+
+  mes -= 1;
+
+  let fechaConcierto = new Date(año, mes, dia);
+
+  while (fechaAux < fechaConcierto) {
+    fechaAux.setDate(fechaAux.getDate() + 1);
+    diasrestantes++;
+  }
+
+  alert("Solo quedan " + diasrestantes + " dias");
+}
+
 
 function contarTickets() {
   event.preventDefault(); // Previene la recarga de la página
@@ -264,6 +286,8 @@ function contarTickets() {
         if (((conciertos[i][4] + numtickets) <= 150)) {
           // Suma de los tickets a la posicion donde se encuentran
           conciertos[i][4] += Number.parseInt(numtickets);
+          //enviamos la fecha de hoy junto a la del concierto.
+          compararTiempo(hoy, fechaSplit)
           //Añadimos lo ganda por esa venta, los indices seran ident y detalle.
           dineroPorCompra.push({
             ident: conciertos[i].ident,
@@ -329,3 +353,4 @@ function borrarHistorialVentas() {
   }
   console.log(dineroPorCompra);
 }
+
