@@ -237,7 +237,7 @@ function temporada(concierto) {
 
 //funcion:avisa cuando compras un ticket cuantos dias le quedan al concierto comprado.
 
-function compararTiempo(today, limite) {
+function compararTiempoConDescuento(today, limite, tickets, artista) {
   let diasrestantes = 0;
   let fechaAux = new Date(today);
 
@@ -252,6 +252,42 @@ function compararTiempo(today, limite) {
   while (fechaAux < fechaConcierto) {
     fechaAux.setDate(fechaAux.getDate() + 1);
     diasrestantes++;
+  }
+  //Calculamos  el coste de todos lo ticket y creamos las variables auxiliares.
+  let coste = Math.imul(tickets, 30);
+  let descuento, preciofinal;
+  /*
+  
+  Añadimos lo ganda por esa venta, los indices seran ident y detalle.
+  Cuanto más tiempo falte mayor sera el descuento.
+  
+  */
+  if (diasrestantes <= 30) {
+    dineroPorCompra.push({
+      ident: conciertos[artista].ident,
+      detalle: tickets + " => " + coste
+    });
+  } else if (diasrestantes > 30 && diasrestantes <= 90) {
+
+    //decuento 10%
+
+    descuento = coste * 0.10;
+    preciofinal = coste - descuento;
+    dineroPorCompra.push({
+      ident: conciertos[artista].ident,
+      detalle: tickets + " => " + preciofinal
+    });
+  } else {
+
+    //decuento 15%
+
+    descuento = coste * 0.15;
+    preciofinal = coste - descuento;
+
+    dineroPorCompra.push({
+      ident: conciertos[artista].ident,
+      detalle: tickets + " => " + preciofinal
+    });
   }
 
   alert("Solo quedan " + diasrestantes + " dias");
@@ -277,7 +313,7 @@ function contarTickets() {
   if (numtickets <= 5 && numtickets > 0) {
     // For para recorrer todos los elementos del array
     for (let i = 0; i < conciertos.length; i++) {
-      4
+
 
       // Condicional para comprobar que el nombre sea igual que el del array y la fecha
       if (artistaSplit == conciertos[i][0] && fechaSplit == conciertos[i][2]) {
@@ -287,12 +323,7 @@ function contarTickets() {
           // Suma de los tickets a la posicion donde se encuentran
           conciertos[i][4] += Number.parseInt(numtickets);
           //enviamos la fecha de hoy junto a la del concierto.
-          compararTiempo(hoy, fechaSplit)
-          //Añadimos lo ganda por esa venta, los indices seran ident y detalle.
-          dineroPorCompra.push({
-            ident: conciertos[i].ident,
-            detalle: numtickets + " => " + numtickets * 30
-          });
+          compararTiempoConDescuento(hoy, fechaSplit, numtickets, i);
 
           //Recarga la lista de opciones
           loadOptions();
