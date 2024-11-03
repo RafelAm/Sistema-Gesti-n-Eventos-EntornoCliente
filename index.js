@@ -1,4 +1,5 @@
-
+var hoy = new Date();
+var dineroPorCompra = [];
 var conciertoPorDefecto = [[" ", " ", " ", "url(Multimedia/prox.jpg)",0]]
 // Array bidimensional que guarda información de cada cartel
 var conciertos = [
@@ -23,7 +24,6 @@ function adminMenu() {
   let elementos = document.getElementsByClassName("adm");
   if (user == "admin" && pass == 1234) {
     for (let i = 0; i < elementos.length; i++) {
-      console.log(elementos)
       elementos[i].style.display = "inline";
     }
 
@@ -138,7 +138,8 @@ function addConcierto() {
   let name = document.getElementById("name").value;
   let sala = document.getElementById("sala").value;
   let fecha = new Date(document.getElementById("fecha").value).toLocaleDateString('es-ES');
-  let tickets = parseInt(document.getElementById("tickets").value);
+  let tickets = document.getElementById("ltickets").value;
+
   let foto = "url(Multimedia/" + document.getElementById("foto").value + ".jpg)";
 
   if (elementosVacios()) {
@@ -236,6 +237,69 @@ function temporada(concierto) {
 }
 
 
+
+//funcion:avisa cuando compras un ticket cuantos dias le quedan al concierto comprado.
+
+function compararTiempoConDescuento(today, limite, tickets, artista) {
+  let diasrestantes = 0;
+  let fechaAux = new Date(today);
+
+  let dia = parseInt((limite.split("/"))[0]);
+  let mes = parseInt((limite.split("/"))[1]);
+  let año = parseInt((limite.split("/"))[2]);
+
+  mes -= 1;
+
+  let fechaConcierto = new Date(año, mes, dia);
+
+  while (fechaAux < fechaConcierto) {
+    fechaAux.setDate(fechaAux.getDate() + 1);
+    diasrestantes++;
+  }
+  //Calculamos  el coste de todos lo ticket y creamos las variables auxiliares.
+  let coste = Math.imul(tickets, 30);
+  let descuento, preciofinal;
+  /*
+  
+  Añadimos lo ganda por esa venta, los indices seran ident y detalle.
+  Cuanto más tiempo falte mayor sera el descuento.
+  
+  */
+  if (diasrestantes <= 30) {
+    dineroPorCompra.push({
+      concierto: conciertos[artista][0] + "-" + conciertos[artista][2],
+      ident: conciertos[artista].ident,
+      detalle: tickets + " Entradas" + " => " + (tickets * 30) + "€"
+    });
+  } else if (diasrestantes > 30 && diasrestantes <= 90) {
+
+    //decuento 10%
+
+    descuento = coste * 0.10;
+    preciofinal = coste - descuento;
+    dineroPorCompra.push({
+      concierto: conciertos[artista][0] + "-" + conciertos[artista][2],
+      ident: conciertos[artista].ident,
+      detalle: tickets + " Entradas" + " => " + preciofinal + "€"
+    });
+  } else {
+
+    //decuento 15%
+
+    descuento = coste * 0.15;
+    preciofinal = coste - descuento;
+
+    dineroPorCompra.push({
+      concierto: conciertos[artista][0] + "-" + conciertos[artista][2],
+      ident: conciertos[artista].ident,
+      detalle: tickets + " Entradas" + " => " + preciofinal + "€"
+    });
+  }
+
+  alert("Faltan " + diasrestantes + " dias para el concierto de " + conciertos[artista][0] + " " + conciertos[artista][2]);
+}
+
+
 function contarTickets(){
   event.preventDefault(); // Previene la recarga de la página
   // Captar numero de tickets
@@ -243,7 +307,7 @@ function contarTickets(){
   // Captar la información del select HTML
   let nombreArtista = document.getElementById("optionArtista").value;
   // Separar el nombre del artista y la fecha para guardarla en un array
-  let splitter = nombreArtista.split(/(\d{2}\/\d{2}\/\d{4})/);
+  let splitter = nombreArtista.split(/(\d{1,2}\/\d{2}\/\d{4})/);
   // Guardar nombre artista sin espacios en una variable
   let artistaSplit = splitter[0].trim();
   // Guardar fecha en una variable
@@ -254,7 +318,7 @@ function contarTickets(){
 
   if(numtickets <= 5 && numtickets > 0){
   // For para recorrer todos los elementos del array
-  for (let i = 0; i < conciertos.length; i++) {4
+  for (let i = 0; i < conciertos.length; i++) {
 
     // Condicional para comprobar que el nombre sea igual que el del array y la fecha
     if (artistaSplit == conciertos[i][0] && fechaSplit == conciertos[i][2]) {
@@ -262,7 +326,11 @@ function contarTickets(){
 
       if(((conciertos[i][4]+numtickets) <= 150)){
       // Suma de los tickets a la posicion donde se encuentran
-      conciertos[i][4] += parseInt(numtickets);
+      conciertos[i][4] += Number.parseInt(numtickets);
+      //enviamos la fecha de hoy junto a la del concierto.
+      compararTiempoConDescuento(hoy, fechaSplit, numtickets, i);
+
+      
       //Recarga la lista de opciones
       loadOptions();
 
@@ -289,20 +357,41 @@ function contarTickets(){
 
 
 
-function calcularTotal(){
-  let id = parseInt(prompt("Introduce el ID del cartel:"));
+//calcula el total de todos los ingresos de un concierto.
+
+function calcularTotal() {
+  let id = Number.parseInt(prompt("Introduce el ID del cartel:"));
   let total = 0;
   let ticketsVendidos = 0
-  
-  for(let i = 0; i < conciertos.length; i++){
-    console.log(conciertos[i][7])
-    if(conciertos[i][7] == id){
+  let gastosGestion = 0;
+  for (let i = 0; i < conciertos.length; i++) {
+    if (conciertos[i].ident == id) {
       ticketsVendidos = conciertos[i][4];
       break;
     }
   }
-  total = ticketsVendidos * 30;
-  console.log(total);
+
+  gastosGestion = ticketsVendidos * 0.9;
+  //multiplicacion con el metodo imul de math
+  total = Math.imul(ticketsVendidos, 30) + gastosGestion;
+  alert("Las ganacias son de un total: " + total + "€");
 }
 
-//hola soy yesua
+// fucion para sacar por pantalla todo el historial de ventas
+
+function mostrarHistorialVentas() {
+  alert("Se mostrara el historial por consola.");
+  console.log(dineroPorCompra);
+}
+
+// borra en el historial todas las ventas de una ID en concreto
+
+function borrarHistorialVentas() {
+  let id = Number.parseInt(prompt("Introduce el ID del cartel:"));
+  for (let i = dineroPorCompra.length - 1; i >= 0; i--) {
+    if (id == dineroPorCompra[i].ident) {
+      dineroPorCompra.splice(i, 1);
+    }
+  }
+  console.log(dineroPorCompra);
+}
