@@ -388,7 +388,9 @@ function calcularTotal() {
   gastosGestion = ticketsVendidos * 0.9;
   //multiplicacion con el metodo imul de math
   total = Math.imul(ticketsVendidos, 30) + gastosGestion;
-  alert("Las ganacias son de un total: " + total + "€");
+  let ingresoSala = Math.floor(total * 0.70);
+  let ingresoArtista = Math.floor(total - ingresoSala);
+  alert("Las ganacias son de un total: " + total + "€. La sala se lleva: " + ingresoSala +"€ y el artista: " + ingresoArtista + "€.");
 }
 
 // fucion para sacar por pantalla todo el historial de ventas
