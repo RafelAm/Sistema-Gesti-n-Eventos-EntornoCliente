@@ -53,6 +53,8 @@ function reload() {
   }
 }
 
+// Funcion para llenar los elementos vacios / borrados por un predefinido
+
 function comingSoon() {
   let artistas = "art" + indice;
   let salas = "sal" + indice;
@@ -85,6 +87,8 @@ function loadOptions(){
       document.getElementById("optionArtista").innerHTML += "<option id='op'>" +conciertos[i][0]+" " +conciertos[i][2]+ " - Tickets Restantes: "+ conciertos[i][4] +"/"+conciertos[i][5]+"</option>"
   }
 }
+
+// Funcion para cargar los carteles almacenados en el array
 
 function loadArtistas() {
   let artistas = "art" + indice;
@@ -120,12 +124,12 @@ function loadArtistas() {
 
 
 
-//Test
+// Abrir menu admin
 function addMenu(){
   let form =document.getElementById("formContainer");
   form.style.display = "block";
 }
-
+// Cerrar menu admin
 function rmMenu(){
   let form =document.getElementById("formContainer");
   event.preventDefault(); // Previene la recarga de la página
@@ -139,9 +143,10 @@ function addConcierto() {
   let sala = document.getElementById("sala").value;
   let fecha = new Date(document.getElementById("fecha").value).toLocaleDateString('es-ES');
   let tickets = document.getElementById("ltickets").value;
-
   let foto = "url(Multimedia/" + document.getElementById("foto").value + ".jpg)";
 
+
+  // Si hay elementos vacios hace un push sinos no introduce la información
   if (elementosVacios()) {
       conciertos.push([name, sala, fecha, foto, 0, tickets]); // Añadir al final si no se eliminó ningún elemento
   }
@@ -158,6 +163,7 @@ function rmConcierto() {
   for (let j = 0; j < conciertos.length; j++) {
     if (conciertos[j].ident == identificador) {
       conciertos.splice(j, 1);
+      // Busca los elementos vacios y llama a commingSoon
       if (elementosVacios()) {
         comingSoon();
       }
@@ -170,6 +176,8 @@ function rmConcierto() {
     }
   }
 }
+
+// Miramos que elementos estan vacios y devolvemos un true por cada elemento que encuentra (Esto nos sirve para llenar los vacios por CommingSoon)
 
 function elementosVacios() {
   let elementos = document.getElementsByTagName("h1");
@@ -307,22 +315,26 @@ function contarTickets(){
   // Captar la información del select HTML
   let nombreArtista = document.getElementById("optionArtista").value;
   // Separar el nombre del artista y la fecha para guardarla en un array
-  let splitter = nombreArtista.split(/(\d{1,2}\/\d{2}\/\d{4})/);
+  let splitter = nombreArtista.split(/(\d{1,2}\/\d{1,2}\/\d{4})/);
   // Guardar nombre artista sin espacios en una variable
   let artistaSplit = splitter[0].trim();
   // Guardar fecha en una variable
   let fechaSplit = splitter[1];
- 
+  // Capturamos los elementos del html para mostrar mensajes
   let soldout = document.getElementById("full");
   let nticks = document.getElementById("nticks");
 
+  // Condicional para la comprobación de compra de tickets inferior a 0 y mayor a 5
   if(numtickets <= 5 && numtickets > 0){
+    // Aplicamos display none para que no aparezcan los mensajes
+    soldout.style.display= "none";
+    nticks.style.display = "none";
   // For para recorrer todos los elementos del array
   for (let i = 0; i < conciertos.length; i++) {
 
     // Condicional para comprobar que el nombre sea igual que el del array y la fecha
     if (artistaSplit == conciertos[i][0] && fechaSplit == conciertos[i][2]) {
-      soldout.style.display= "none";
+
 
       if(((conciertos[i][4]+numtickets) <= 150)){
       // Suma de los tickets a la posicion donde se encuentran
@@ -339,7 +351,7 @@ function contarTickets(){
         soldout.style.display= "block";
 
        }else if((conciertos[i][4] + numtickets) > 150){
-        soldout.innerHTML = "Solo queda disponible: " + parseInt((conciertos[i][4] + numtickets) - conciertos[i][5])+" entrada";
+        soldout.innerHTML = "Solo queda disponible: " + parseInt((conciertos[i][5] - conciertos[i][4]))+" entrada";
         soldout.style.display= "block";
       }
 
@@ -360,11 +372,13 @@ function contarTickets(){
 //calcula el total de todos los ingresos de un concierto.
 
 function calcularTotal() {
+  // Introducimos el ID del cartel "Numero de la posicion del cartel" empezando desde 1
   let id = Number.parseInt(prompt("Introduce el ID del cartel:"));
   let total = 0;
   let ticketsVendidos = 0
   let gastosGestion = 0;
   for (let i = 0; i < conciertos.length; i++) {
+    // Comprobamos que el id pasado por prompt sea el mismo que el que esta en el array
     if (conciertos[i].ident == id) {
       ticketsVendidos = conciertos[i][4];
       break;
@@ -374,11 +388,8 @@ function calcularTotal() {
   gastosGestion = ticketsVendidos * 0.9;
   //multiplicacion con el metodo imul de math
   total = Math.imul(ticketsVendidos, 30) + gastosGestion;
-  let ingresoSala = Math.floor(total * 0.70);
-  let ingresoArtista = Math.floor(total - ingresoSala);
-  alert("Las ganacias son de un total: " + total + "€. La sala se lleva: " + ingresoSala +"€ y el artista: " + ingresoArtista + "€.");
+  alert("Las ganacias son de un total: " + total + "€");
 }
-
 
 // fucion para sacar por pantalla todo el historial de ventas
 
