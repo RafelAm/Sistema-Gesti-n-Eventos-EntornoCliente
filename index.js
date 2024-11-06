@@ -388,9 +388,22 @@ function calcularTotal() {
   gastosGestion = ticketsVendidos * 0.9;
   //multiplicacion con el metodo imul de math
   total = Math.imul(ticketsVendidos, 30) + gastosGestion;
+
+  let ingresoPromedio = calcularIngresoPorAsistente(total, ticketsVendidos);
+  
   let ingresoSala = Math.floor(total * 0.70);
   let ingresoArtista = Math.floor(total - ingresoSala);
-  alert("Las ganacias son de un total: " + total + "€. La sala se lleva: " + ingresoSala +"€ y el artista: " + ingresoArtista + "€.");
+  alert("Las ganancias son de un total: " + total + "€. La sala se lleva: " + ingresoSala +"€ y el artista: " + ingresoArtista + "€. El ingreso promedio por asistente es: " + ingresoPromedio + "€.");
+}
+
+// Calcular promedio de ingresos por asistente
+function calcularIngresoPorAsistente(total, asistentes) {
+  if (asistentes > 0) {
+    let ingresoPorAsistente = (total / asistentes).toFixed(2);
+    return ingresoPorAsistente; // Retorna el ingreso promedio por asistente
+  } else {
+    return 0.00; 
+  }
 }
 
 // fucion para sacar por pantalla todo el historial de ventas
